@@ -27,7 +27,7 @@ public class AuthController {
         appUserService.registerUser(
                 registerRequest.getUsername(),
                 registerRequest.getPassword(),
-                Set.of(registerRequest.getRole()) // Assegna il ruolo di default
+                Set.of(Role.ROLE_UTENTE_NORMALE) // Ruolo fisso
         );
         return ResponseEntity.ok("Registrazione avvenuta con successo");
     }

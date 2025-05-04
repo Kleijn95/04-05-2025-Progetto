@@ -33,6 +33,10 @@ public class EventoService {
         return evento.getOrganizzatore().getUsername().equals(username);
     }
 
+    public List<Evento> trovaEventiPerPartecipante(Long utenteId) {
+        return eventoRepository.findByPartecipanti_Id(utenteId);
+    }
+
 
     public void aggiungiPartecipante(Long idEvento, Long idAppUser) {
         Evento evento = eventoRepository.findById(idEvento)

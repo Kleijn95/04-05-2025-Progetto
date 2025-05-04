@@ -13,6 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/eventi")
 public class EventoController {
@@ -49,6 +52,18 @@ public class EventoController {
         return eventoService.update(id, request, appUser.getId());  // Usa AppUser al posto di Utente
     }
 
+    @PreAuthorize("hasRole('ROLE_UTENTE_NORMALE')")
+    @GetMapping("/partecipa/miei-eventi")
+    public List<EventoDTO> getEventiUtente(@AuthenticationPrincipal AppUser utenteAutenticato) {
+        return eventoService.trovaEventiPerPartecipante(utenteAutenticato.getId())
+                .stream()
+                .map(evento -> new EventoDTO(
+                        evento.getTitolo(),
+                        evento.getData(),
+                        evento.getLuogo()
+                ))
+                .collect(Collectors.toList());
+    }
 
 
     // delete
